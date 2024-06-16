@@ -1,0 +1,28 @@
+{
+  "name": "tstrack",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "NODE_ENV=production bun run src/index.ts",
+    "dev": "bun run src/index.ts",
+    "upload":"bun build --target bun src/ > index.js && scp index.js switcher:~/tracker/tracker/"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "prisma": "^5.11.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "5.11.0",
+    "@solana/web3.js": "^1.91.1",
+    "bs58": "^5.0.0",
+    "decimal.js": "^10.4.3",
+    "dotenv": "^16.4.5",
+    "lru-cache": "^10.2.0",
+    "telegraf": "^4.16.3",
+    "web3": "^4.6.0",
+    "winston": "^3.12.0"
+  }
+}

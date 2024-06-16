@@ -1,0 +1,57 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model Debug {
+  id      String @id
+  txhash  String
+  user_id String
+}
+
+model Group {
+  id           String         @id
+  name         String
+  UserOnGroup  UserOnGroup[]
+  WatchAddress WatchAddress[]
+}
+
+model User {
+  id          String        @id
+  UserOnGroup UserOnGroup[]
+}
+
+model UserOnGroup {
+  userId       String
+  groupId      String
+  creationDate DateTime @default(now())
+  Group        Group    @relation(fields: [groupId], references: [id], onUpdate: Cascade)
+  User         User     @relation(fields: [userId], references: [id])
+
+  @@id([userId, groupId])
+}
+
+model WatchAddress {
+  id      String  @id
+  groupId String
+  address String
+  alias   String
+  chains  Chain[]
+  Group   Group   @relation(fields: [groupId], references: [id], onUpdate: Cascade)
+
+  @@unique([groupId, address])
+}
+
+enum Chain {
+  ETH
+  BNB
+  ARB
+  MATIC
+  AVAX
+  SOL
+}
